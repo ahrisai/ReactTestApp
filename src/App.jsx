@@ -1,41 +1,51 @@
-import React, { useState,useRef } from 'react'
-import PostList from './components/PostList'
-import Post from './components/Post'
-import CustomInput from './components/UI/Input/CustomInput'
-import CustomButton from './components/UI/Button/CustomButton'
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import PostList from "./components/PostList";
 
-import './styles/App.css'
+import CustomInput from "./components/UI/Input/CustomInput";
+import CustomButton from "./components/UI/Button/CustomButton";
 
+import "./styles/App.css";
+import PostForm from "./components/PostForm";
+import CustomSelect from "./components/UI/Select/CustomSelect";
+import PostFilter from "./components/PostFilter";
+import Modal from "./components/Modal/Modal";
+import { useSortedPosts } from "./hooks/usePosts";
 export default function App() {
- const [posts, setPosts] = useState([
-  {id:1,title:'JavaScript', text:'Описание'},
-  {id:2,title:'JavaScript', text:'Описание'},
-  {id:3,title:'JavaScript', text:'Описание'},
-  {id:4,title:'JavaScript', text:'Описание'},
-  {id:5,title:'JavaScript', text:'Описание'},
- ])
+  const [posts, setPosts] = useState([
+    { id: 1, title: "a", text: "b" },
+    { id: 2, title: "b", text: "a" },
+    { id: 3, title: "c", text: "e" },
+    { id: 4, title: "d", text: "d" },
+    { id: 5, title: "e", text: "Описание" },
+  ]);
 
- const [newPost, setNewPost] = useState({
-  title:'',
-  text:'',
-  id:null,
- })
-  function addNewPost(e) {
-    e.preventDefault();
+  const [filter, setFilter] = useState({ sort: "", search: "" });
+  
+  const sortedPosts=useSortedPosts(posts,filter.sort)
 
-    setPosts([{...newPost,id:new Date().getTime()},...posts])
+  const sortedAndSearchedPosts = useMemo(() => {
+    return sortedPosts.filter((p) =>
+      p.title.toLowerCase().includes(filter.search.toLowerCase())
+    );
+  }, [filter.search, sortedPosts]);
+  function createPost(newPost) {
+    setPosts([newPost, ...posts]);
   }
   function removePost(id) {
-    
+    setPosts(posts.filter((post) => post.id != id));
   }
+function switchVisible(visible,setVisible) {
+  visible?setVisible(false):setVisible(true)
+}
   return (
     <div className="App">
-      <form >
-        <CustomInput onChange={(e)=>setNewPost({...newPost,title:e.target.value})} type="text" placeholder='Название поста' />
-        <CustomInput onChange={(e)=>setNewPost({...newPost,text:e.target.value})} type="text" placeholder='Текст поста' />
-        <CustomButton onClick={addNewPost}>Создать пост</CustomButton>
-      </form>
-     <PostList posts={posts} removePost={removePost}/>
+      <CustomButton onClick={()=>switchVisible(true,)}>Создать пост</CustomButton>
+      <Modal switchVisible={switchVisible}>
+      <PostForm createPost={createPost} />
+      </Modal>
+      
+      <PostFilter filter={filter} setFilter={setFilter} />
+      <PostList posts={sortedAndSearchedPosts} removePost={removePost} />
     </div>
-  )
+  );
 }
