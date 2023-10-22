@@ -19,12 +19,14 @@ export default function Posts() {
   const [limit, setLimit] = useState(5)
   const [page, setPage] = useState(1)
 
+
   const [fetchPosts, isLoading, isError] = useFetching(async () => {
     const response = await PostService.fetchPosts(limit,page);
     const totalCount=response.headers['x-total-count']
     setTotalPages(getPagesCount(totalCount,limit))
     setPosts(response.data);
   });
+  
   const finalPosts = usePosts(posts, filter.sort, filter.search);
 
   useEffect(() => {
