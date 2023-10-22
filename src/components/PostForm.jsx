@@ -6,29 +6,29 @@ const PostForm = ({createPost}) => {
 
     const [newPost, setNewPost] = useState({
         title:'',
-        text:'',
+        body:'',
         id:null,
        })
 
         function addNewPost(e) {
           e.preventDefault();
           createPost({...newPost,id:new Date().getTime()})
-          setNewPost({title:'',text:'',id:null})
+          setNewPost({title:'',body:'',id:null})
       
         }
   return (
     <form>
       <CustomInput
         onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-        type="text"
+        type="body"
         placeholder="Название поста"
         value={newPost.title}
       />
       <CustomInput
-        onChange={(e) => setNewPost({ ...newPost, text: e.target.value })}
-        type="text"
+        onChange={(e) => setNewPost({ ...newPost, body: e.target.value })}
+        type="body"
         placeholder="Текст поста"
-        value={newPost.text}
+        value={newPost.body}
       />
       <CustomButton onClick={addNewPost}>Создать пост</CustomButton>
     </form>

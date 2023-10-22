@@ -1,13 +1,13 @@
 import React from 'react'
 import CustomButton from './UI/Button/CustomButton'
 
-const Post = ({post,number,removePost}) => {
+const Post = ({post,removePost}) => {
   return (
     <div className="post">
         <div className="post__content">
-          <strong>{number}. {post.title} </strong>
+          <strong>{post.id}. {post.title} </strong>
           <div>
-            {post.text}
+            {post.body}
           </div>
         </div>
         <div className="post__btns">
