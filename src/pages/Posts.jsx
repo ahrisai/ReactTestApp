@@ -16,7 +16,7 @@ export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sort: "", search: "" });
   const [totalPages, setTotalPages] = useState(0);
-  const [limit, setLimit] = useState(5)
+  const [limit, setLimit] = useState(10)
   const [page, setPage] = useState(1)
 
 

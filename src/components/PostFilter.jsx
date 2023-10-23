@@ -5,7 +5,7 @@ import { useState } from 'react'
 const PostFilter = ({filter, setFilter}) => {
   const [options] = useState([
     { value: "title", name: "По названию" },
-    { value: "text", name: "По описанию" },
+    { value: "body", name: "По описанию" },
   ]);
   return (
     <>
