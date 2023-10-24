@@ -24,7 +24,7 @@ export default function Posts() {
     const response = await PostService.fetchPosts(limit,page);
     const totalCount=response.headers['x-total-count']
     setTotalPages(getPagesCount(totalCount,limit))
-    setPosts(response.data);
+    setPosts([...posts,...response.data]);
   });
   
   const finalPosts = usePosts(posts, filter.sort, filter.search);
